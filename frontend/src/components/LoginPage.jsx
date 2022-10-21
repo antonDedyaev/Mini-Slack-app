@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 import { Form, Button } from 'react-bootstrap';
-
 import loginImg from '../assets/avatar.jpeg';
+import useAuth from '../hooks/useAuth';
+import routes from '../utils/routes';
 
 const validationSchema = yup.object().shape({
   username: yup
@@ -12,16 +15,36 @@ const validationSchema = yup.object().shape({
     .required('required'),
   password: yup
     .string()
-    .required('required')
-    .min(8, 'Password is too short - should be 8 chars minimum.'),
+    .required('required'),
 });
 const LoginPage = () => {
+  const [failedAuth, setFailedAuth] = useState(false);
+
+  const navigate = useNavigate();
+  const auth = useAuth();
+
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
     validationSchema,
+    onSubmit: async ({ username, password }) => {
+      setFailedAuth(false);
+
+      try {
+        const response = await axios.post(routes.loginPath(), { username, password });
+        auth.logIn(response.data);
+        console.log(response.data);
+        navigate('/');
+      } catch (err) {
+        if (err.isAxiosError && err.response.status === 401) {
+          setFailedAuth(true);
+          return;
+        }
+        throw err;
+      }
+    },
   });
 
   return (
@@ -33,7 +56,7 @@ const LoginPage = () => {
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                 <img src={loginImg} className="rounded-circle" alt="Войти" />
               </div>
-              <Form className="col-12 col-md-6 mt-3 mt-mb-0">
+              <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
                 <h1 className="text-center mb-4">Войти</h1>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
@@ -44,10 +67,11 @@ const LoginPage = () => {
                     id="username"
                     onChange={formik.handleChange}
                     value={formik.values.username}
+                    isInvalid={failedAuth}
                   />
                   <Form.Label htmlFor="username">Ваш ник</Form.Label>
                 </Form.Group>
-                <Form.Group className="form-floating mb-4">
+                <Form.Group className="form-floating mb-4 position-relative">
                   <Form.Control
                     name="password"
                     autoComplete="current-password"
@@ -57,8 +81,10 @@ const LoginPage = () => {
                     id="password"
                     onChange={formik.handleChange}
                     value={formik.values.password}
+                    isInvalid={failedAuth}
                   />
                   <Form.Label htmlFor="password">Пароль</Form.Label>
+                  <Form.Control.Feedback type="invalid" tooltip>Неверные имя пользователя или пароль</Form.Control.Feedback>
                 </Form.Group>
                 <Button variant="outline-primary" type="submit" className="w-100 mb-3">Войти</Button>
               </Form>
