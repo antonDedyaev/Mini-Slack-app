@@ -12,10 +12,10 @@ import routes from '../utils/routes';
 const validationSchema = yup.object().shape({
   username: yup
     .string()
-    .required('required'),
+    .required(),
   password: yup
     .string()
-    .required('required'),
+    .required(),
 });
 const LoginPage = () => {
   const [failedAuth, setFailedAuth] = useState(false);
@@ -35,7 +35,6 @@ const LoginPage = () => {
       try {
         const response = await axios.post(routes.loginPath(), { username, password });
         auth.logIn(response.data);
-        console.log(response.data);
         navigate('/');
       } catch (err) {
         if (err.isAxiosError && err.response.status === 401) {
