@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -23,11 +23,16 @@ const validationSchema = yup.object().shape({
 const MessageSection = () => {
   const { username } = useAuth().user;
   const { addMessage } = useSocket();
-  const { channels, currentChannelId } = useSelector((state) => state.channels);
+  const { channels, currentChannelId, status } = useSelector((state) => state.channels);
   const { messages } = useSelector((state) => state.messages);
   const selectedChannel = channels.find((channel) => channel.id === currentChannelId);
-  console.log(messages);
   const currChannelMessages = messages.filter((message) => message.channelId === currentChannelId);
+
+  const inputRef = useRef();
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       body: '',
@@ -49,7 +54,11 @@ const MessageSection = () => {
         </div>
         <MessageBox />
         <Container className="mt-auto px-5 py-3">
-          <Form onSubmit={formik.handleSubmit} noValidate className="py-1 border rounded-2">
+          <Form
+            onSubmit={formik.handleSubmit}
+            className="py-1 border rounded-2"
+            noValidate
+          >
             <InputGroup hasValidation>
               <Form.Control
                 name="body"
@@ -58,9 +67,14 @@ const MessageSection = () => {
                 className="border-0 p-0 ps-2"
                 value={formik.values.body}
                 onChange={formik.handleChange}
+                ref={inputRef}
               />
               <ButtonGroup vertical>
-                <Button type="submit" variant="link" disabled={formik.values.body === ''}>
+                <Button
+                  type="submit"
+                  variant="link"
+                  disabled={formik.values.body === '' || status === 'loading'}
+                >
                   <ArrowRightSquare />
                   <Form.Label visuallyHidden>Отправить</Form.Label>
                 </Button>

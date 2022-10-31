@@ -29,7 +29,26 @@ export const fetchData = createAsyncThunk(routes.dataPath(), async () => {
 const channelsSlice = createSlice({
   name: 'channels',
   initialState,
-  reducers: {},
+  reducers: {
+    channelAdded(state, action) {
+      const { id } = action.payload;
+      state.channels.push(action.payload);
+      state.currentChannelId = id;
+    },
+    channelRemoved(state, action) {
+      const { id } = action.payload;
+      state.channels = state.channels.filter((channel) => channel.id !== id);
+      state.currentChannelId = defaultId;
+    },
+    channelRenamed(state, action) {
+      const { id, name } = action.payload;
+      const renamedChannel = state.channels.find((channel) => channel.id === id);
+      renamedChannel.name = name;
+    },
+    channelSelected(state, action) {
+      state.currentChannelId = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchData.pending, (state) => {
@@ -44,6 +63,11 @@ const channelsSlice = createSlice({
 
 });
 
-export const { channelAdded } = channelsSlice.actions;
+export const {
+  channelAdded,
+  channelRemoved,
+  channelRenamed,
+  channelSelected,
+} = channelsSlice.actions;
 
 export default channelsSlice.reducer;
