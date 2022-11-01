@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useFormik } from 'formik';
 
 import { Form, Button } from 'react-bootstrap';
 import loginImg from '../assets/avatar.jpeg';
@@ -38,6 +38,7 @@ const LoginPage = () => {
         navigate('/');
       } catch (err) {
         if (err.isAxiosError && err.response.status === 401) {
+          formik.errors.wrongCredentials = 'Неверные имя пользователя или пароль';
           setFailedAuth(true);
           return;
         }
@@ -83,7 +84,7 @@ const LoginPage = () => {
                     isInvalid={failedAuth}
                   />
                   <Form.Label htmlFor="password">Пароль</Form.Label>
-                  <Form.Control.Feedback type="invalid" tooltip>Неверные имя пользователя или пароль</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid" tooltip>{formik.errors.wrongCredentials}</Form.Control.Feedback>
                 </Form.Group>
                 <Button variant="outline-primary" type="submit" className="w-100 mb-3">Войти</Button>
               </Form>

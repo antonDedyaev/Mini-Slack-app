@@ -3,10 +3,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import TopNav from './TopNav';
-// eslint-disable-next-line import/no-cycle
 import MainPage from './MainPage';
 import PageNotFound from './PageNotFound';
 import LoginPage from './LoginPage';
+import SignupPage from './SignupPage';
 import PrivateRoute from '../hooks/PrivateRoute';
 
 const App = () => (
@@ -23,6 +23,7 @@ const App = () => (
               )}
         />
         <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<SignupPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
