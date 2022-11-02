@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+import { ToastContainer } from 'react-toastify';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import TopNav from './TopNav';
@@ -27,6 +27,7 @@ const App = () => (
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
+    <ToastContainer />
   </BrowserRouter>
 );
 
