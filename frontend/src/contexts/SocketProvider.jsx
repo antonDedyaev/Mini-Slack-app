@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import { createContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
 
 export const SocketContext = createContext({});
 
 export const SocketProvider = ({ socket, children }) => {
+  const { t } = useTranslation();
   const addMessage = (body, channelId, username) => {
     socket.emit('newMessage', { body, channelId, username }, (response) => {
       if (response.status !== 'ok') {
@@ -19,7 +20,7 @@ export const SocketProvider = ({ socket, children }) => {
       if (response.status !== 'ok') {
         console.log('Bad request!');
       }
-      toast.success('Канал создан');
+      toast.success(t('toasts.added'));
     });
   };
 
@@ -28,7 +29,7 @@ export const SocketProvider = ({ socket, children }) => {
       if (response.status !== 'ok') {
         console.log('Bad request!');
       }
-      toast.success('Канал удалён');
+      toast.success(t('toasts.removed'));
     });
   };
 
@@ -37,7 +38,7 @@ export const SocketProvider = ({ socket, children }) => {
       if (response.status !== 'ok') {
         console.log('Bad request!');
       }
-      toast.success('Канал переименован');
+      toast.success(t('toasts.renamed'));
     });
   };
 

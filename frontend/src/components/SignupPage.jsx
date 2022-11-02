@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -47,12 +48,18 @@ const SignupPage = () => {
         auth.logIn(response.data);
         navigate('/');
       } catch (err) {
-        if (err.isAxiosError && err.response.status === 409) {
-          inputRef.current.select();
-          formik.errors.existingUser = t('errors.alreadyRegistered');
-          return;
+        switch (err.message) {
+          case 'Request failed with status code 409':
+            inputRef.current.select();
+            formik.errors.existingUser = t('errors.alreadyRegistered');
+            break;
+          case 'Network Error':
+            toast.error(t('toasts.noConnection'));
+            break;
+          default:
+            toast.error(t('toasts.unknownError'));
+            throw err;
         }
-        throw err;
       }
     },
   });

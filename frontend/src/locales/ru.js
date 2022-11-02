@@ -63,5 +63,12 @@ export default {
       send: 'Отправить',
       newMessage: 'Новое сообщение',
     },
+    toasts: {
+      added: 'Канал создан',
+      renamed: 'Канал переименован',
+      removed: 'Канал удалён',
+      noConnection: 'Ошибка соединения',
+      unknownError: 'Неизвестная ошибка',
+    },
   },
 };

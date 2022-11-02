@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import * as yup from 'yup';
@@ -43,14 +43,18 @@ const LoginPage = () => {
         auth.logIn(response.data);
         navigate('/');
       } catch (err) {
-        if (err.isAxiosError && err.response.status === 401) {
-          console.log(err);
-          toast.error('Ошибка соединения');
-          formik.errors.wrongCredentials = t('errors.wrongCredentials');
-          setFailedAuth(true);
-          return;
+        switch (err.message) {
+          case 'Request failed with status code 401':
+            formik.errors.wrongCredentials = t('errors.wrongCredentials');
+            setFailedAuth(true);
+            break;
+          case 'Network Error':
+            toast.error(t('toasts.noConnection'));
+            break;
+          default:
+            toast.error(t('toasts.unknownError'));
+            throw err;
         }
-        throw err;
       }
     },
   });
