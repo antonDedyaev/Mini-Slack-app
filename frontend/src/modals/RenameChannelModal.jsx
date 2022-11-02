@@ -7,6 +7,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import useSocket from '../hooks/useSocket';
+import profanityFilter from '../utils/profanityFilter';
 
 const RenameChannelModal = (props) => {
   const { modalInfo, onHide } = props;
@@ -35,7 +36,7 @@ const RenameChannelModal = (props) => {
     initialValues: { name: renamedChannel.name },
     validationSchema,
     onSubmit: () => {
-      renameChannel(modalInfo.channelId, formik.values.name);
+      renameChannel(modalInfo.channelId, profanityFilter(formik.values.name));
       onHide();
     },
   });

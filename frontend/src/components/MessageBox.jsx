@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import profanityFilter from '../utils/profanityFilter';
 
 const MessageBox = () => {
   const { messages } = useSelector((state) => state.messages);
@@ -11,7 +12,7 @@ const MessageBox = () => {
       {currChannelMessages.map(({ id, body, username }) => (
         <div key={id} className="text-break mb-2">
           <b>{username}</b>
-          {`: ${body}`}
+          {`: ${profanityFilter(body)}`}
         </div>
       ))}
     </div>

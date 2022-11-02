@@ -9,6 +9,7 @@ import {
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import useSocket from '../hooks/useSocket';
+import profanityFilter from '../utils/profanityFilter';
 
 const AddChannelModal = (props) => {
   const { onHide } = props;
@@ -36,7 +37,7 @@ const AddChannelModal = (props) => {
     initialValues: { name: '' },
     validationSchema,
     onSubmit: () => {
-      addChannel(formik.values.name);
+      addChannel(profanityFilter(formik.values.name));
       onHide();
     },
   });
