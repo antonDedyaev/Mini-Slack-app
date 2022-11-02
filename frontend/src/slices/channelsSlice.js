@@ -22,7 +22,7 @@ const getAuthHeader = () => {
 export const fetchData = createAsyncThunk(routes.dataPath(), async () => {
   const response = await axios
     .get(routes.dataPath(), { headers: getAuthHeader() });
-  // console.log(response.data);
+  console.log(response);
   return response.data;
 });
 

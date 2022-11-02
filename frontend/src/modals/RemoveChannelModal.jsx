@@ -1,9 +1,11 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import useSocket from '../hooks/useSocket';
 
 const RemoveChannelModal = (props) => {
   const { modalInfo, onHide } = props;
+  const { t } = useTranslation();
   const { removeChannel } = useSocket();
 
   const handleRemove = () => {
@@ -20,7 +22,7 @@ const RemoveChannelModal = (props) => {
       centered
     >
       <Modal.Header>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
         <Button
           type="button"
           aria-label="Close"
@@ -30,21 +32,21 @@ const RemoveChannelModal = (props) => {
         />
       </Modal.Header>
       <Modal.Body>
-        <p className="lead">Уверены?</p>
+        <p className="lead">{t('modals.confirmRemoval')}</p>
         <div className="d-flex justify-content-end">
           <Button
             type="button"
             className="me-2 btn btn-secondary"
             onClick={onHide}
           >
-            Отменить
+            {t('modals.cancelBtn')}
           </Button>
           <Button
             type="button"
             className="btn btn-danger"
             onClick={handleRemove}
           >
-            Удалить
+            {t('modals.removeBtn')}
           </Button>
         </div>
       </Modal.Body>

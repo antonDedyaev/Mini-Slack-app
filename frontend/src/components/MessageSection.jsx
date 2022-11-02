@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -16,11 +17,8 @@ import MessageBox from './MessageBox';
 import useAuth from '../hooks/useAuth';
 import useSocket from '../hooks/useSocket';
 
-const validationSchema = yup.object().shape({
-  body: yup.string().trim().required(),
-});
-
 const MessageSection = () => {
+  const { t } = useTranslation();
   const { username } = useAuth().user;
   const { addMessage } = useSocket();
   const { channels, currentChannelId, status } = useSelector((state) => state.channels);
@@ -32,6 +30,10 @@ const MessageSection = () => {
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+
+  const validationSchema = yup.object().shape({
+    body: yup.string().trim().required(),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -50,7 +52,7 @@ const MessageSection = () => {
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0"><b>{`# ${selectedChannel?.name}`}</b></p>
-          <span className="text-muted">{`${currChannelMessages.length} сообщение`}</span>
+          <span className="text-muted">{t('pages.chat.messagesCount.message', { count: currChannelMessages.length })}</span>
         </div>
         <MessageBox />
         <Container className="mt-auto px-5 py-3">
@@ -62,8 +64,8 @@ const MessageSection = () => {
             <InputGroup hasValidation>
               <Form.Control
                 name="body"
-                aria-label="Новое сообщение"
-                placeholder="Введите сообщение..."
+                aria-label={t('hiddenTexts.newMessage')}
+                placeholder={t('pages.chat.messageInput')}
                 className="border-0 p-0 ps-2"
                 value={formik.values.body}
                 onChange={formik.handleChange}
@@ -76,7 +78,7 @@ const MessageSection = () => {
                   disabled={formik.values.body === '' || status === 'loading'}
                 >
                   <ArrowRightSquare />
-                  <Form.Label visuallyHidden>Отправить</Form.Label>
+                  <Form.Label visuallyHidden>{t('hiddenTexts.send')}</Form.Label>
                 </Button>
               </ButtonGroup>
             </InputGroup>
