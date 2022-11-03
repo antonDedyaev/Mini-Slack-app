@@ -1,13 +1,13 @@
 import React, { useRef } from 'react';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
+import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import * as yup from 'yup';
-import { useFormik } from 'formik';
 
 import { Form, Button } from 'react-bootstrap';
+
 import signupImg from '../assets/avatar_1.jpg';
 import useAuth from '../hooks/useAuth';
 import routes from '../utils/routes';

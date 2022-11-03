@@ -1,7 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button, Navbar, Container } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+
 import useAuth from '../hooks/useAuth';
 
 const TopNav = () => {

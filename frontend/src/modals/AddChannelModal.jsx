@@ -1,13 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
-import {
-  Modal, Form, Button,
-} from 'react-bootstrap';
-
-import * as yup from 'yup';
 import { useFormik } from 'formik';
+import * as yup from 'yup';
+
+import { Modal, Form, Button } from 'react-bootstrap';
+
 import useSocket from '../hooks/useSocket';
 import profanityFilter from '../utils/profanityFilter';
 

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import i18n from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import { io } from 'socket.io-client';
@@ -8,6 +7,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { AuthProvider } from './contexts/AuthProvider';
 import { SocketProvider } from './contexts/SocketProvider';
+
 import App from './components/App';
 import store from './slices/store';
 import {

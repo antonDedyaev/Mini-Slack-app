@@ -1,6 +1,8 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+
+import { Modal, Button } from 'react-bootstrap';
+
 import useSocket from '../hooks/useSocket';
 
 const RemoveChannelModal = (props) => {

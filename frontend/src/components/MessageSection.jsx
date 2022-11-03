@@ -13,9 +13,9 @@ import {
 } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 
-import MessageBox from './MessageBox';
 import useAuth from '../hooks/useAuth';
 import useSocket from '../hooks/useSocket';
+import MessageBox from './MessageBox';
 
 const MessageSection = () => {
   const { t } = useTranslation();
