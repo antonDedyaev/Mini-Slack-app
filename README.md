@@ -8,6 +8,9 @@ This is a simplified version of Slack. Sign up, create your own channels or join
 
 ### You're welcome at https://hexletlvl4chat-production.up.railway.app
 
+
+### Install and use:
+
 1. Clone the repository using:
 ```sh 
 git clone https://github.com/antonDedyaev/frontend-project-12
