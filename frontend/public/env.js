@@ -1,0 +1,3 @@
+window.env = {
+  "PATH": "/Users/aintdead/Hexlet/frontend-project-12/frontend/node_modules/.bin:/Users/aintdead/Hexlet/frontend-project-12/node_modules/.bin:/Users/aintdead/Hexlet/node_modules/.bin:/Users/aintdead/node_modules/.bin:/Users/node_modules/.bin:/node_modules/.bin:/opt/homebrew/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/opt/homebrew/bin:/opt/homebrew/sbin"
+};
