@@ -22,11 +22,11 @@ const LoginPage = () => {
     username: yup
       .string()
       .trim()
-      .required(),
+      .required(t('formWarnings.requiredField')),
     password: yup
       .string()
       .trim()
-      .required(),
+      .required(t('formWarnings.requiredField')),
   });
 
   const formik = useFormik({
