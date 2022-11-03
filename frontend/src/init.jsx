@@ -1,9 +1,11 @@
 import React from 'react';
+
 import i18n from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import { io } from 'socket.io-client';
 
 import { Provider as StoreProvider } from 'react-redux';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { AuthProvider } from './contexts/AuthProvider';
 import { SocketProvider } from './contexts/SocketProvider';
 import App from './components/App';
@@ -45,15 +47,29 @@ export default async () => {
     store.dispatch(channelRenamed(payload));
   });
 
+  const rollbarConfig = {
+    accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    payload: {
+      environment: process.env,
+    },
+  };
+
   return (
-    <AuthProvider>
-      <StoreProvider store={store}>
-        <SocketProvider socket={socket}>
-          <I18nextProvider i18n={i18nInstance}>
-            <App />
-          </I18nextProvider>
-        </SocketProvider>
-      </StoreProvider>
-    </AuthProvider>
+    <RollbarProvider config={rollbarConfig}>
+      <ErrorBoundary>
+        <AuthProvider>
+          <StoreProvider store={store}>
+            <SocketProvider socket={socket}>
+              <I18nextProvider i18n={i18nInstance}>
+                <App />
+              </I18nextProvider>
+            </SocketProvider>
+          </StoreProvider>
+        </AuthProvider>
+      </ErrorBoundary>
+    </RollbarProvider>
+
   );
 };
