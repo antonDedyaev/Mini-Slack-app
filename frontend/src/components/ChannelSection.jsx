@@ -14,9 +14,9 @@ import {
 import { PlusSquare } from 'react-bootstrap-icons';
 
 import { channelSelected } from '../slices/channelsSlice';
+import { modalOpened } from '../slices/modalsSlice';
 
-const ChannelSection = (props) => {
-  const { showModal } = props;
+const ChannelSection = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const currChannelId = useSelector((state) => state.channels.currentChannelId);
@@ -43,8 +43,8 @@ const ChannelSection = (props) => {
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          <Dropdown.Item href="#" onClick={() => showModal('removing', channel.id)}>{t('pages.chat.removeOption')}</Dropdown.Item>
-          <Dropdown.Item href="#" onClick={() => showModal('renaming', channel.id)}>{t('pages.chat.renameOption')}</Dropdown.Item>
+          <Dropdown.Item href="#" onClick={() => dispatch(modalOpened({ modalType: 'removing', channelId: channel.id }))}>{t('pages.chat.removeOption')}</Dropdown.Item>
+          <Dropdown.Item href="#" onClick={() => dispatch(modalOpened({ modalType: 'renaming', channelId: channel.id }))}>{t('pages.chat.renameOption')}</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
@@ -76,7 +76,7 @@ const ChannelSection = (props) => {
           type="button"
           variant="link"
           className="p-0 text-primary btn-group-vertical"
-          onClick={() => showModal('adding')}
+          onClick={() => dispatch(modalOpened({ modalType: 'adding' }))}
         >
           <PlusSquare width="20" height="20" />
           <Form.Label visuallyHidden>+</Form.Label>

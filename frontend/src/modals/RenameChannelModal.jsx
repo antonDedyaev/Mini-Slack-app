@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -8,10 +8,11 @@ import { Modal, Form, Button } from 'react-bootstrap';
 
 import useSocket from '../hooks/useSocket';
 import profanityFilter from '../utils/profanityFilter';
+import { modalClosed } from '../slices/modalsSlice';
 
-const RenameChannelModal = (props) => {
-  const { modalInfo, onHide } = props;
+const RenameChannelModal = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const { renameChannel } = useSocket();
 
   const inputRef = useRef();
@@ -20,7 +21,8 @@ const RenameChannelModal = (props) => {
   }, []);
 
   const { channels, status } = useSelector((state) => state.channels);
-  const renamedChannel = channels.find(({ id }) => id === modalInfo.channelId);
+  const channelId = useSelector((state) => state.modals.channelId);
+  const renamedChannel = channels.find(({ id }) => id === channelId);
 
   const validationSchema = yup.object().shape({
     name: yup
@@ -36,8 +38,8 @@ const RenameChannelModal = (props) => {
     initialValues: { name: renamedChannel.name },
     validationSchema,
     onSubmit: () => {
-      renameChannel(modalInfo.channelId, profanityFilter(formik.values.name));
-      onHide();
+      renameChannel(channelId, profanityFilter(formik.values.name));
+      dispatch(modalClosed());
     },
   });
 
@@ -56,7 +58,7 @@ const RenameChannelModal = (props) => {
           aria-label="Close"
           data-bs-dismiss="modal"
           className="btn-close"
-          onClick={onHide}
+          onClick={() => dispatch(modalClosed())}
         />
       </Modal.Header>
       <Modal.Body>
@@ -77,7 +79,7 @@ const RenameChannelModal = (props) => {
               type="button"
               className="me-2"
               variant="secondary"
-              onClick={onHide}
+              onClick={() => dispatch(modalClosed())}
               disabled={status === 'loading'}
             >
               {t('modals.cancelBtn')}

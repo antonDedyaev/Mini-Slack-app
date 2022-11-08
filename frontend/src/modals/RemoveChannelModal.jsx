@@ -1,18 +1,21 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { Modal, Button } from 'react-bootstrap';
 
 import useSocket from '../hooks/useSocket';
+import { modalClosed } from '../slices/modalsSlice';
 
-const RemoveChannelModal = (props) => {
-  const { modalInfo, onHide } = props;
+const RemoveChannelModal = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const { removeChannel } = useSocket();
+  const channelId = useSelector((state) => state.modals.channelId);
 
   const handleRemove = () => {
-    removeChannel(modalInfo.channelId);
-    onHide();
+    removeChannel(channelId);
+    dispatch(modalClosed());
   };
 
   return (
@@ -30,7 +33,7 @@ const RemoveChannelModal = (props) => {
           aria-label="Close"
           data-bs-dismiss="modal"
           className="btn-close"
-          onClick={onHide}
+          onClick={() => dispatch(modalClosed())}
         />
       </Modal.Header>
       <Modal.Body>
@@ -39,7 +42,7 @@ const RemoveChannelModal = (props) => {
           <Button
             type="button"
             className="me-2 btn btn-secondary"
-            onClick={onHide}
+            onClick={() => dispatch(modalClosed())}
           >
             {t('modals.cancelBtn')}
           </Button>

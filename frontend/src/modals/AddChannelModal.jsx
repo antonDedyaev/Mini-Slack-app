@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -8,10 +8,11 @@ import { Modal, Form, Button } from 'react-bootstrap';
 
 import useSocket from '../hooks/useSocket';
 import profanityFilter from '../utils/profanityFilter';
+import { modalClosed } from '../slices/modalsSlice';
 
-const AddChannelModal = (props) => {
-  const { onHide } = props;
+const AddChannelModal = () => {
   const { addChannel } = useSocket();
+  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const inputRef = useRef();
@@ -36,7 +37,7 @@ const AddChannelModal = (props) => {
     validationSchema,
     onSubmit: () => {
       addChannel(profanityFilter(formik.values.name));
-      onHide();
+      dispatch(modalClosed());
     },
   });
 
@@ -55,7 +56,7 @@ const AddChannelModal = (props) => {
           aria-label="Close"
           data-bs-dismiss="modal"
           className="btn-close"
-          onClick={onHide}
+          onClick={() => dispatch(modalClosed())}
         />
       </Modal.Header>
       <Modal.Body>
@@ -76,7 +77,7 @@ const AddChannelModal = (props) => {
               type="button"
               className="me-2"
               variant="secondary"
-              onClick={onHide}
+              onClick={() => dispatch(modalClosed())}
               disabled={status === 'loading'}
             >
               {t('modals.cancelBtn')}
