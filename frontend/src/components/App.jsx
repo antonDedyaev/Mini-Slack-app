@@ -10,6 +10,7 @@ import PageNotFound from './PageNotFound';
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 import PrivateRoute from '../hooks/PrivateRoute';
+import routes from '../utils/routes';
 
 const App = () => (
   <BrowserRouter>
@@ -17,16 +18,16 @@ const App = () => (
       <TopNav />
       <Routes>
         <Route
-          path="/"
+          path={routes.mainRoute}
           element={(
             <PrivateRoute>
               <MainPage />
             </PrivateRoute>
               )}
         />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<SignupPage />} />
-        <Route path="*" element={<PageNotFound />} />
+        <Route path={routes.loginRoute} element={<LoginPage />} />
+        <Route path={routes.signupRoute} element={<SignupPage />} />
+        <Route path={routes.unknownRoute} element={<PageNotFound />} />
       </Routes>
     </div>
     <ToastContainer />
