@@ -78,6 +78,7 @@ const LoginPage = () => {
                     placeholder={t('pages.login.nickname')}
                     id="username"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     value={formik.values.username}
                     isInvalid={failedAuth}
                   />
@@ -92,13 +93,20 @@ const LoginPage = () => {
                     type="password"
                     id="password"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     value={formik.values.password}
                     isInvalid={failedAuth}
                   />
                   <Form.Label htmlFor="password">{t('pages.login.password')}</Form.Label>
                   <Form.Control.Feedback type="invalid" tooltip>{formik.errors.wrongCredentials}</Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="outline-primary" type="submit" className="w-100 mb-3">{t('pages.login.loginBtn')}</Button>
+                <Button
+                  variant="outline-primary"
+                  type="submit"
+                  className="w-100 mb-3"
+                >
+                  {t('pages.login.loginBtn')}
+                </Button>
               </Form>
             </div>
             <div className="card-footer p-4">
