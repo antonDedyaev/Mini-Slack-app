@@ -2,6 +2,7 @@ import React from 'react';
 import i18n from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import { io } from 'socket.io-client';
+import filter from 'leo-profanity';
 
 import { Provider as StoreProvider } from 'react-redux';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
@@ -28,6 +29,10 @@ export default async () => {
         ru,
       },
     });
+
+  filter.add(filter.getDictionary('en'));
+  filter.add(filter.getDictionary('fr'));
+  filter.add(filter.getDictionary('ru'));
 
   const socket = io();
 
