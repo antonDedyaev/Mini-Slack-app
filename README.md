@@ -6,8 +6,6 @@
 
 This is a simplified version of Slack. Sign up, create your own channels or join the default ones and enjoy communication with other users.
 
-<div align="center">You're welcome at https://hexletlvl4chat-production.up.railway.app</div>
-
 ### Install and use:
 
 1. Clone the repository using:
